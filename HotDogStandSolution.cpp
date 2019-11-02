@@ -50,6 +50,7 @@ class HotDogStandClass
 		int		getHotDogsSold()	{ return hotDogsSold; };
 		void	hotDogsBuy(int amount);
 		void	stockInventory(int amount);
+		string	display();
 };
 
 HotDogStandClass::HotDogStandClass(int id, string location, double cost, int inventory, int numSold, int * totalSold)
@@ -83,6 +84,11 @@ void HotDogStandClass::stockInventory(int amount)
 	hotDogInventory += amount;
 }
 
+string HotDogStandClass::display()
+{
+	return "--------------------------------------------------------------\nstandID: " + to_string(standID) + ", standLocation: " + standLocation + ", hotDogCost: " + to_string(hotDogCost) + "\nhotDogInventory: " + to_string(hotDogInventory) + ", hotDogsSold: " + to_string(hotDogsSold) + ", totalSold: " + to_string(*totalSoldPtr);
+}
+
 int totalSold = 0;
 
 int main()
@@ -90,13 +96,32 @@ int main()
 	// formats all numbers >999 to include separating commas
 	cout.imbue(locale(""));
 
-	HotDogStandClass h(1,"test",2.15,10,0,&totalSold);
-	cout << totalSold << endl;
-	h.hotDogsBuy(5);
-	cout << totalSold << endl;
-	h.hotDogsBuy(10);
-	cout << totalSold << endl;
-	h.stockInventory(5);
-	h.hotDogsBuy(10);
-	cout << totalSold << endl;
+	HotDogStandClass hotdogstand1(123, "456 main st", 2.15, 70, 0, &totalSold);
+	HotDogStandClass hotdogstand2(456, "456 main st", 3.00, 30, 0, &totalSold);
+	HotDogStandClass hotdogstand3(789, "456 main st", 1.95, 15, 0, &totalSold);
+
+	cout << "initial stand 123" << endl;
+	cout << hotdogstand1.display() << endl << endl;
+
+	cout << "buy in stock hot dogs from stand 123" << endl;
+	hotdogstand1.hotDogsBuy(30);
+	cout << hotdogstand1.display() << endl << endl;
+
+	cout << "initial stand 456" << endl;
+	cout << hotdogstand2.display() << endl << endl;
+
+	cout << "try and buy out of stock hot dogs from stand 456" << endl;
+	hotdogstand2.hotDogsBuy(35);
+	cout << hotdogstand2.display() << endl << endl;
+
+	cout << "initial stand 789" << endl;
+	cout << hotdogstand3.display() << endl << endl;
+
+	cout << "restock stand 789" << endl;
+	hotdogstand3.stockInventory(85);
+	cout << hotdogstand3.display() << endl << endl;
+
+	cout << "buy in stock hot dogs from stand 789 to show totalSold" << endl;
+	hotdogstand3.hotDogsBuy(20);
+	cout << hotdogstand3.display() << endl << endl;
 }
